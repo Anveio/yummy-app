@@ -2,6 +2,13 @@
   Okay folks, want to learn a little bit about webpack?
 */
 
+try {
+  require('os').networkInterfaces();
+}
+catch (e) {
+  require('os').networkInterfaces = () => ({});
+}
+
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
@@ -11,6 +18,11 @@ const autoprefixer = require('autoprefixer');
   How to handle those files is up to loaders.
   We only have a single entry point (a .js file) and everything is required from that js file
 */
+
+const typescript = {
+  test: /\.tsx?$/, 
+  loader: "awesome-typescript-loader" 
+},
 
 // This is our JavaScript rule that specifies what to do with .js files
 const javascript = {
@@ -50,7 +62,10 @@ const uglify = new webpack.optimize.UglifyJsPlugin({ // eslint-disable-line
 const config = {
   entry: {
     // we only have 1 entry, but I've set it up for multiple in the future
-    App: './public/javascripts/delicious-app.js'
+    App: './public/javascripts/delicious-app.js',
+  },
+  resolve: {
+    extensions: ["webpack.js", ".web.js", ".ts", ".tsx", ".js"]
   },
   // we're using sourcemaps and here is where we specify which kind of sourcemap to use
   devtool: 'source-map',
@@ -66,7 +81,7 @@ const config = {
 
   // remember we said webpack sees everthing as modules and how different loaders are responsible for different file types? Here is is where we implement them. Pass it the rules for our JS and our styles
   module: {
-    rules: [javascript, styles]
+    rules: [ javascript, styles, typescript ]
   },
   // finally we pass it an array of our plugins - uncomment if you want to uglify
   // plugins: [uglify]

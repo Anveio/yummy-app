@@ -1,13 +1,13 @@
 {
-  "name": "yummy",
-  "version": "1.0.0",
+  "name": "dang-thats-delicious",
+  "version": "0.0.0",
   "private": true,
   "engines": {
     "node": ">= 7.6.0"
   },
   "scripts": {
     "prod": "node ./start.js",
-    "watch": "nodemon ./start.js --ignore public/",
+    "watch": "nodemon ./start.js --ignore public/ --legacy-watch",
     "start": "concurrently \"npm run watch\" \"npm run assets\" --names \"💻,📦\" --prefix name",
     "assets": "webpack -w --display-max-modules 0",
     "sample": "node ./data/load-sample-data.js",
@@ -48,8 +48,8 @@
     "validator": "7.0.0"
   },
   "devDependencies": {
-    "@types/mongoose": "^4.7.11",
     "autoprefixer": "6.7.7",
+    "awesome-typescript-loader": "^3.1.3",
     "babel-core": "6.24.0",
     "babel-loader": "6.4.0",
     "babel-preset-es2015": "6.24.0",
@@ -60,6 +60,7 @@
     "nodemon": "1.11.0",
     "postcss-loader": "1.3.3",
     "sass-loader": "6.0.3",
-    "webpack": "2.2.1"
+    "webpack": "2.2.1",
+    "webpack-dev-server": "^2.4.5"
   }
 }
