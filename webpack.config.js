@@ -1,7 +1,3 @@
-/*
-  Okay folks, want to learn a little bit about webpack?
-*/
-
 try {
   require('os').networkInterfaces();
 }
@@ -19,18 +15,13 @@ const autoprefixer = require('autoprefixer');
   We only have a single entry point (a .js file) and everything is required from that js file
 */
 
-const typescript = {
-  test: /\.tsx?$/, 
-  loader: "awesome-typescript-loader" 
-},
-
 // This is our JavaScript rule that specifies what to do with .js files
 const javascript = {
   test: /\.(js)$/, // see how we match anything that ends in `.js`? Cool
   use: [{
     loader: 'babel-loader',
     options: { presets: ['es2015'] } // this is one way of passing options
-  }],
+  }]
 };
 
 /*
@@ -81,7 +72,7 @@ const config = {
 
   // remember we said webpack sees everthing as modules and how different loaders are responsible for different file types? Here is is where we implement them. Pass it the rules for our JS and our styles
   module: {
-    rules: [ javascript, styles, typescript ]
+    rules: [ javascript, styles ]
   },
   // finally we pass it an array of our plugins - uncomment if you want to uglify
   // plugins: [uglify]
