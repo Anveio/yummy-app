@@ -53,7 +53,6 @@ exports.updateAccount = async (req, res) => {
   };
 
   const user = await User.findOneAndUpdate(
-    
     { _id: req.user._id }, // Query
     { $set: updates }, // New Data
     { new: true, runValidators: true, context: 'query' } // Options

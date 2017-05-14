@@ -12,13 +12,15 @@ router.get('/add',
   storeController.addStore
 );
 
-router.post('/add', 
+router.post('/add',
+  storeController.validateStore,
   storeController.upload, 
-  catchErrors(storeController.resize), 
+  catchErrors(storeController.resize),
   catchErrors(storeController.createStore)
 );
 
 router.post('/add/:id',
+  storeController.validateStore,
   storeController.upload, 
   catchErrors(storeController.resize),
   catchErrors(storeController.updateStore)

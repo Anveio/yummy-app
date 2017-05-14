@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
-const slug = require('slugs')
+const slug = require('slugs');
+const validator = require('validator');
 
 mongoose.Promise = global.Promise;
 const storeSchema = new mongoose.Schema({
   name: {
     type: String,
     trim: true,
-    required: 'Please enter a store name!'
+    validate: [validator.isAlphanumeric, 'Illegal characters in store name'],
+    required: 'Please enter a store name.'
   },
   slug: String,
   description: {
@@ -40,7 +42,7 @@ const storeSchema = new mongoose.Schema({
   }
 })
 
-// Define out indexes
+// Define our indexes
 storeSchema.index({
   name: 'text',
   description: 'text'
@@ -48,8 +50,10 @@ storeSchema.index({
 
 storeSchema.pre('save', async function(next) {
   if (!this.isModified('name')) {
-    return next();;
+    return next();
   }
+
+  this.name = this.name.split('').slice(0, 60);
   
   // Handle slugs with potentially identical names
   this.slug = slug(this.name);

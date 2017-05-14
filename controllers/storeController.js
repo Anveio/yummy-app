@@ -80,8 +80,6 @@ exports.editStore = async (req, res) => {
   res.render('editStore', { title: `Edit ${store.name}`, store })
 }
 
-
-
 exports.getStoreBySlug = async (req, res, next) => {
   const store = await Store.findOne({ slug: req.params.slug }).populate('author');
   if (!store) return next();
@@ -98,6 +96,22 @@ exports.getStoresByTag = async (req, res) => {
   res.render('tag', { tags, title: 'Tags', tag: selectedTag || "All Tags", stores })
 }
 
+exports.validateStore = (req, res, next) => {
+  req.checkBody('name', 'Store name cannot be blank').notEmpty();
+  req.checkBody('description', "Description cannot be blank").notEmpty();
+  req.checkBody('location[address]', "Address cannot be blank").notEmpty();
+
+
+  const errors = req.validationErrors();
+  if (errors) {
+    req.flash('error', errors.map(err => err.msg));
+    res.redirect('back');
+    return;
+  }
+  
+  next();
+}
+
 exports.searchStores = async (req, res) => {
   const stores = await Store
   .find({
@@ -111,3 +125,4 @@ exports.searchStores = async (req, res) => {
   .limit(5)
   res.json(stores);
 }
+
