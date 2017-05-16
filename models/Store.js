@@ -48,12 +48,17 @@ storeSchema.index({
   description: 'text'
 })
 
+storeSchema.index({
+  location: '2dsphere'
+})
+
 storeSchema.pre('save', async function(next) {
   if (!this.isModified('name')) {
     return next();
   }
 
-  this.name = this.name.split('').slice(0, 60);
+  // Enforce 60 character limit
+  this.name = this.name.split('').slice(0, 39);
   
   // Handle slugs with potentially identical names
   this.slug = slug(this.name);

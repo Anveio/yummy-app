@@ -64,7 +64,7 @@ exports.updateStore = async (req, res) => {
     new: true, // return the new store instead of the old one
     runValidators: true
   }).exec();
-  req.flash('success', `Successfully Updated: <strong>${store.name}</strong> | <a href="/stores/${store.slug}">View Store </a>`)
+  req.flash('success', `Successfully Updated: <strong>${store.name}</strong> | <a href="/store/${store.slug}">View Store </a>`)
   res.redirect(`/store/${store._id}/edit`);
 }
 
@@ -101,6 +101,7 @@ exports.validateStore = (req, res, next) => {
   req.checkBody('description', "Description cannot be blank").notEmpty();
   req.checkBody('location[address]', "Address cannot be blank").notEmpty();
 
+  req.checkBody('name', "Store name cannot be greater than 40 characters").len(1, 40);
 
   const errors = req.validationErrors();
   if (errors) {
@@ -108,7 +109,7 @@ exports.validateStore = (req, res, next) => {
     res.redirect('back');
     return;
   }
-  
+
   next();
 }
 
@@ -120,9 +121,31 @@ exports.searchStores = async (req, res) => {
     score: { $meta: 'textScore' }
   })
   .sort({
+
     score: { $meta: 'textScore' }
   })
   .limit(5)
   res.json(stores);
 }
 
+exports.mapStores = async (req, res) => {
+  const coordinates = [req.query.lng, req.query.lat].map(parseFloat);
+  const q = {
+    location: {
+      $near: {
+        $geometry: {
+          type: 'Point',
+          coordinates
+        },
+        $maxDistance: 10000 // 10km
+      }
+    }
+  }
+  
+  const stores = await Store.find(q).select('slug name description location photo').limit(10);
+  res.json(stores);
+}
+
+exports.mapPage = (req, res) => {
+  res.render('map', { title: 'Map' })
+}

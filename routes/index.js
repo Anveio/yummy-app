@@ -13,21 +13,21 @@ router.get('/add',
 );
 
 router.post('/add',
-  storeController.validateStore,
   storeController.upload, 
   catchErrors(storeController.resize),
+  storeController.validateStore,
   catchErrors(storeController.createStore)
 );
 
 router.post('/add/:id',
-  storeController.validateStore,
   storeController.upload, 
   catchErrors(storeController.resize),
+  storeController.validateStore,
   catchErrors(storeController.updateStore)
 );
 
 router.get('/store/:slug', catchErrors(storeController.getStoreBySlug));
-router.get('/stores/:id/edit', catchErrors(storeController.editStore));
+router.get('/store/:id/edit', catchErrors(storeController.editStore));
 
 router.get('/tags', catchErrors(storeController.getStoresByTag));
 router.get('/tags/:tag', catchErrors(storeController.getStoresByTag))
@@ -61,8 +61,11 @@ router.post('/account/reset/:token',
   catchErrors(authController.resetPassword)
 )
 
+router.get('/map', storeController.mapPage);
+
 /* API */
 
 router.get('/api/search', catchErrors(storeController.searchStores));
+router.get('/api/stores/near', catchErrors(storeController.mapStores));
 
 module.exports = router;
