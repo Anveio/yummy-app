@@ -66,7 +66,7 @@ function loadPlaces(map, lat = 43.2, lng = -79.8 ) {
       // Zoom map to fit all markers perfectly
       map.setCenter(bounds.getCenter());
       map.fitBounds(bounds);
-    })
+    }).catch(console.error('Something went wrong'))
 }
 
 const mapOptions = {

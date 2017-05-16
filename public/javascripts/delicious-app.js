@@ -4,6 +4,7 @@ import { $, $$ } from './modules/bling';
 import autocomplete from'./modules/autocomplete';
 import typeAhead from './modules/typeAhead';
 import makeMap from './modules/map';
+import ajaxFavorite from './modules/favorite';
 
 // Stuff for the Google Maps API
 autocomplete( $('#address'), $('#lat'), $('#lng') );
@@ -12,3 +13,6 @@ autocomplete( $('#address'), $('#lat'), $('#lng') );
 typeAhead( $('.search') );
 
 makeMap( $('#map') );
+
+const favoriteForms = $$('form.heart');
+favoriteForms.on('submit', ajaxFavorite);
