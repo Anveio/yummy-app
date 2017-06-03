@@ -1,0 +1,14 @@
+const mongoose = require('mongoose');
+const Review = mongoose.model('Review');
+const Store = mongoose.model('Store');
+const User = mongoose.model('User');
+
+exports.addReview = async (req, res) => {
+  // const store = await Store.findOne({ _id: req.params.id });
+  req.body.author = req.user._id;
+  req.body.store = req.params.id;
+  const newReview = new Review(req.body);
+  await newReview.save();
+  req.flash('success', `Successfully submitted your review!:`);
+  res.redirect('back');
+}
