@@ -6,7 +6,7 @@ mongoose.Promise = global.Promise;
 const reviewSchema = new mongoose.Schema({
   text: {
     type: String,
-    required: 'Your review has to contain some text'
+    required: 'Your review must contain some text.'
   },
   created: {
     type: Date,
@@ -14,7 +14,8 @@ const reviewSchema = new mongoose.Schema({
   },
   store: {
     type: mongoose.Schema.ObjectId, 
-    ref: 'Store'
+    ref: 'Store',
+    required: "Error assigning your review to a store."
   },
   rating: {
     type: Number,
@@ -25,7 +26,7 @@ const reviewSchema = new mongoose.Schema({
   author: {
     type: mongoose.Schema.ObjectId, 
     ref: 'User',
-    required: 'Error assigning an author to your review'
+    required: 'Error assigning an author to your review.'
   }
 });
 
