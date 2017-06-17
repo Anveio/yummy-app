@@ -4,7 +4,6 @@ const Store = mongoose.model('Store');
 const User = mongoose.model('User');
 
 exports.addReview = async (req, res) => {
-  // const store = await Store.findOne({ _id: req.params.id });
   req.body.author = req.user._id;
   req.body.store = req.params.id;
   const newReview = new Review(req.body);

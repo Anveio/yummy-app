@@ -21,13 +21,22 @@ const reviewSchema = new mongoose.Schema({
     type: Number,
     min: 1,
     max: 5,
-    required: 'Your review must contain a rating.'
+    required: 'Your review must contain a rating between 1 and 5 stars.'
   },
   author: {
-    type: mongoose.Schema.ObjectId, 
+    type: mongoose.Schema.ObjectId,
     ref: 'User',
     required: 'Error assigning an author to your review.'
   }
 });
+
+function autopopulate(next) {
+  this.populate('author');
+  next();
+}
+
+reviewSchema.pre('find', autopopulate);
+reviewSchema.pre('findOne', autopopulate);
+
 
 module.exports = mongoose.model('Review', reviewSchema);
