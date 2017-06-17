@@ -20,6 +20,10 @@ exports.icon = (name) => fs.readFileSync(`./public/images/icons/${name}.svg`);
 // Some details about the site
 exports.siteName = `Yummy!`;
 
+exports.storePage = (store) => {
+  return `/store/${store.slug}`
+}
+
 exports.menu = [
   { slug: '/stores', title: 'Stores', icon: 'store', },
   { slug: '/tags', title: 'Tags', icon: 'tag', },
