@@ -1,18 +1,18 @@
-import '../sass/style.scss';
+import "../sass/style.scss";
 
-import { $, $$ } from './modules/bling';
-import autocomplete from'./modules/autocomplete';
-import typeAhead from './modules/typeAhead';
-import makeMap from './modules/map';
-import ajaxFavorite from './modules/favorite';
+import { $, $$ } from "./modules/bling";
+import autocomplete from "./modules/autocomplete";
+import typeAhead from "./modules/typeAhead";
+import makeMap from "./modules/map";
+import ajaxFavorite from "./modules/favorite";
 
 // Stuff for the Google Maps API
-autocomplete( $('#address'), $('#lat'), $('#lng') );
+autocomplete($("#address"), $("#lat"), $("#lng"));
 
 // Make the search bar more pleasant to use
-typeAhead( $('.search') );
+typeAhead($(".search"));
 
-makeMap( $('#map') );
+makeMap($("#map"));
 
-const favoriteForms = $$('form.heart');
-favoriteForms.on('submit', ajaxFavorite);
+const favoriteForms = $$("form.heart");
+favoriteForms.on("submit", ajaxFavorite);
